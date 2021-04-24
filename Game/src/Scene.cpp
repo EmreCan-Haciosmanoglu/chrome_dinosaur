@@ -46,19 +46,46 @@ void Scene::Update(float ts)
 
 void Scene::Draw(glm::vec3 offset)
 {
-	Can::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.11111f }, { m_Width * 2, m_Height * 2 }, { 0.85f, 0.85f, 0.85f, 1.0f });
-	Can::Renderer2D::DrawQuad({ 0.0f, m_Height * 0.2f * 3.0f / 2.0f, -0.111f }, { m_Width, m_Height }, { 1.0f, 1.0f, 0.85f, 1.0f });
-	Can::Renderer2D::DrawQuad({ 0.0f, m_Height * 0.8f / 2.0f, -0.11f }, { m_Width,m_Height * 0.8f }, m_GameLayer->m_SkyImage);
-	Can::Renderer2D::DrawQuad({ 0.0f, -m_Height * 0.3f / 2.0f, -0.1f }, { m_Width, m_Height * 0.3f }, m_GameLayer->m_GroundImage);
+	Can::DrawQuadParameters params = Can::DrawQuadParameters();
+	
+	params.Position = { 0.0f, 0.0f, -0.11111f };
+	params.Size = { m_Width * 2, m_Height * 2 };
+	params.TintColor = { 0.85f, 0.85f, 0.85f, 1.0f };
+	Can::Renderer2D::DrawQuad(params);
+
+	params.Position = { 0.0f, m_Height * 0.2f * 3.0f / 2.0f, -0.111f };
+	params.Size = { m_Width, m_Height };
+	params.TintColor = { 1.0f, 1.0f, 0.85f, 1.0f };
+	Can::Renderer2D::DrawQuad(params);
+
+	params.Position = { 0.0f, m_Height * 0.8f / 2.0f, -0.11f };
+	params.Size = { m_Width, m_Height * 0.8f };
+	params.TintColor = glm::vec4(1.0f);
+	params.texture = m_GameLayer->m_SkyImage;
+	Can::Renderer2D::DrawQuad(params);
+
+	params.Position = { 0.0f, -m_Height * 0.3f / 2.0f, -0.1f };
+	params.Size = { m_Width, m_Height * 0.3f };
+	params.texture = m_GameLayer->m_GroundImage;
+	Can::Renderer2D::DrawQuad(params);
+
 	for (int i = 0; i < m_ObstacleCount; i++)
 	{
 		Obstacle ob = m_Obstacles.at(i);
 		if (ob.x < m_Width - m_ObstacleWidth * 2)
 		{
+			params.Position = { ob.x + offset.x , ob.h / 2 + offset.y ,offset.z };
+			params.Size = { ob.w * 1.2f, ob.h * 1.1f };
 			if (ob.h > 1.0f)
-				Can::Renderer2D::DrawQuad({ ob.x + offset.x , ob.h / 2 + offset.y ,offset.z }, { ob.w * 1.2f, ob.h * 1.1f }, m_GameLayer->m_CactusImage1);
+			{
+				params.texture = m_GameLayer->m_CactusImage1;
+				Can::Renderer2D::DrawQuad(params);
+			}
 			else
-				Can::Renderer2D::DrawQuad({ ob.x + offset.x , ob.h / 2 + offset.y ,offset.z }, { ob.w * 1.2f, ob.h * 1.1f }, m_GameLayer->m_CactusImage2);
+			{
+				params.texture = m_GameLayer->m_CactusImage2;
+				Can::Renderer2D::DrawQuad(params);
+			}
 		}
 	}
 }

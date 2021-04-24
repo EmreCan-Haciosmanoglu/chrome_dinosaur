@@ -10,6 +10,8 @@ Dinosaur::Dinosaur(float smallUp, float bigUp, float g, NeuralNetwork* brain, Ga
 	, m_Brain(brain)
 	, m_GameLayer(gameLayer)
 {
+	params.Size = glm::vec2(1.0f);
+	params.texture = m_GameLayer->m_DinosaurImage;
 }
 
 Dinosaur::~Dinosaur()
@@ -28,8 +30,8 @@ void Dinosaur::Update(float ts, float* state, int stateSize)
 
 void Dinosaur::Draw(const glm::vec3& pos)
 {
-	
-	Can::Renderer2D::DrawQuad({ pos.x , pos.y + m_Y + 0.5f, pos.z }, { 1.0f, 1.0f }, m_GameLayer->m_DinosaurImage);
+	params.Position = { pos.x , pos.y + m_Y + 0.5f, pos.z };
+	Can::Renderer2D::DrawQuad(params);
 }
 
 void Dinosaur::Move(float ts, float* state, int stateSize)

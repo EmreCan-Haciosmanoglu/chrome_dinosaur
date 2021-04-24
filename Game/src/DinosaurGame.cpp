@@ -8,10 +8,11 @@
 class DinosaurGame : public Can::Application
 {
 public:
-	DinosaurGame()
+	DinosaurGame(const Can::WindowProps& props)
+		:Application(props)
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		io.Fonts->AddFontFromFileTTF("assets/fonts/Poppins-Light.otf", 24.0f);
+		io.Fonts->AddFontFromFileTTF("assets/fonts/Poppins/Poppins-Light.ttf", 24.0f);
 		PushLayer(new GameLayer());
 	}
 
@@ -21,7 +22,7 @@ public:
 	}
 };
 
-Can::Application* Can::CreateApplication()
+Can::Application* Can::CreateApplication(const Can::WindowProps& props)
 {
-	return new DinosaurGame();
+	return new DinosaurGame(props);
 }

@@ -34,4 +34,6 @@ private:
 
 	NeuralNetwork* m_Brain;
 	GameLayer* m_GameLayer;
+
+	Can::DrawQuadParameters params = Can::DrawQuadParameters();
 };
